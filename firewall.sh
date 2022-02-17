@@ -1,0 +1,16 @@
+#!/bin/bash
+
+WAN_DEVICE=enp0s3
+LAN_DEVICE=enp0s8
+
+IPTABLES=/sbin/iptables
+
+$IPTABLES -F
+#echo 1
+$IPTABLES -t nat -A POSTROUTING -o $WAN_DEVICE -j MASQUERADE
+#echo 2
+$IPTABLES -A FORWARD -i $WAN_DEVICE -o $LAN_DEVICE -m state --state NEW -j REJE$
+#echo 3
+$IPTABLES -A FORWARD -i $WAN_DEVICE -o $LAN_DEVICE -m state --state RELATED,EST$
+#echo 4
+$IPTABLES -A FORWARD -i $LAN_DEVICE -o $WAN_DEVICE -j ACCEPT
